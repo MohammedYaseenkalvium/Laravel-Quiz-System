@@ -9,7 +9,7 @@ use App\Models\Option;
 
 class Question extends Model
 {
-    protected $fillable = ['quiz_id','type', 'question_text','marks'];
+    protected $fillable = ['quiz_id','type', 'question_text', 'image_path', 'video_url', 'marks'];
     public function quiz()
     {
         return $this->belongsTo(Quiz::class);
