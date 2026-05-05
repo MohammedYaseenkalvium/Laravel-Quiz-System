@@ -1,21 +1,30 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Quiz;
+use App\Models\Answer;
 use App\Models\Attempt;
 use App\Models\Question;
-use App\Models\Option;
-use App\Models\Answer;
+use App\Models\Quiz;
+use App\QuestionTypes\QuestionTypeRegistry;
 use App\Services\QuizEvaluatorService;
+use Illuminate\Http\Request;
 
-class QuizController extends Controller {
+class QuizController extends Controller
+{
+    public function __construct(
+        private QuestionTypeRegistry $registry,
+        private QuizEvaluatorService $evaluator,
+    ) {}
 
+    // ── API ───────────────────────────────────────────────────────────────────
 
-    public function createQuiz(Request $request) {
+    public function createQuiz(Request $request)
+    {
         $request->validate([
             'title'     => 'required|string',
             'questions' => 'required|array',
+            'questions.*.type' => ['required', 'string', 'in:' . implode(',', $this->registry->keys())],
         ]);
 
         $quiz = Quiz::create([
@@ -25,7 +34,7 @@ class QuizController extends Controller {
 
         foreach ($request->questions as $q) {
             $imagePath = null;
-            if (!empty($q['image'])) {
+            if (!empty($q['image']) && $q['image'] instanceof \Illuminate\Http\UploadedFile) {
                 $imagePath = $q['image']->store('questions', 'public');
             }
 
@@ -38,32 +47,15 @@ class QuizController extends Controller {
                 'marks'         => $q['marks'] ?? 1,
             ]);
 
-            if (in_array($q['type'], ['single_choice', 'multiple_choice', 'binary'])) {
-                foreach ($q['options'] ?? [] as $opt) {
-                    Option::create([
-                        'question_id' => $question->id,
-                        'option_text' => $opt['text'] ?? null,
-                        'image_path'  => $opt['image_path'] ?? null,
-                        'is_correct'  => $opt['is_correct'] ?? false,
-                    ]);
-                }
-            }
-
-
-            if (in_array($q['type'], ['number', 'text']) && !empty($q['correct_answer'])) {
-                Option::create([
-                    'question_id' => $question->id,
-                    'option_text' => $q['correct_answer'],
-                    'is_correct'  => true,
-                ]);
-            }
+            // Delegate option saving to the type handler — no in_array check needed
+            $this->registry->get($q['type'])->saveOptions($question, $q);
         }
 
         return response()->json($quiz->load('questions.options'), 201);
     }
 
-
-    public function submitAttempt(Request $request) {
+    public function submitAttempt(Request $request)
+    {
         $request->validate([
             'quiz_id' => 'required|exists:quizzes,id',
             'answers' => 'required|array',
@@ -79,30 +71,37 @@ class QuizController extends Controller {
             ]);
         }
 
-        $score = (new QuizEvaluatorService())->evaluate($attempt);
+        $score = $this->evaluator->evaluate($attempt);
 
         return response()->json(['attempt_id' => $attempt->id, 'score' => $score]);
     }
 
-
-    public function getResult($id) {
+    public function getResult($id)
+    {
         $attempt = Attempt::with('answers.question.options')->findOrFail($id);
         return response()->json(['score' => $attempt->score, 'details' => $attempt]);
     }
 
+    // ── Web ───────────────────────────────────────────────────────────────────
 
-    public function index() {
+    public function index()
+    {
         $quizzes = Quiz::all();
         return view('quizzes.index', compact('quizzes'));
     }
 
-
-    public function show($id) {
+    public function show($id)
+    {
         $quiz = Quiz::with('questions.options')->findOrFail($id);
-        return view('quizzes.show', compact('quiz'));
+
+        // Pass registry to the view so it can render inputs without its own hardcoding
+        $registry = $this->registry;
+
+        return view('quizzes.show', compact('quiz', 'registry'));
     }
 
-    public function attempt(Request $request) {
+    public function attempt(Request $request)
+    {
         $request->validate([
             'quiz_id' => 'required|exists:quizzes,id',
             'answers' => 'required|array',
@@ -118,19 +117,30 @@ class QuizController extends Controller {
             ]);
         }
 
-        $score = (new QuizEvaluatorService())->evaluate($attempt);
+        $this->evaluator->evaluate($attempt);
 
         return redirect()->route('quiz.result', $attempt->id);
     }
 
-
-    public function result($id) {
-        $attempt = Attempt::with('answers.question.options')->findOrFail($id);
+    public function result($id)
+    {
+        $attempt    = Attempt::with('answers.question.options')->findOrFail($id);
         $totalMarks = $attempt->quiz->questions->sum('marks');
-        return view('quizzes.result', compact('attempt', 'totalMarks'));
+        $registry   = $this->registry;
+
+        return view('quizzes.result', compact('attempt', 'totalMarks', 'registry'));
     }
 
-    public function create() {
-    return view('quizzes.create');
+    public function create()
+    {
+        // Pass type metadata to the view as JSON so JS needs no hardcoded list
+        $types = collect($this->registry->all())->map(fn($t) => [
+            'key'       => $t->key(),
+            'label'     => $t->label(),
+            'hasOptions'=> $t->hasOptions(),
+            'inputType' => $t->inputType(),
+        ])->values();
+
+        return view('quizzes.create', compact('types'));
     }
 }

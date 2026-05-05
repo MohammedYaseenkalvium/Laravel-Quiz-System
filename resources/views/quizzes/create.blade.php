@@ -8,361 +8,86 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
         :root {
-            --bg: #f5f4f0;
-            --surface: #ffffff;
-            --surface2: #f0efe9;
-            --border: #e2e0d8;
-            --border-strong: #c8c6bc;
-            --text: #1a1916;
-            --text-muted: #6b6960;
-            --text-light: #9b9990;
-            --accent: #2d5a27;
-            --accent-light: #e8f0e6;
-            --accent-border: #b8d4b3;
-            --danger: #c0392b;
-            --danger-light: #fdf0ef;
-            --info: #1a4a7a;
-            --info-light: #e8f0f8;
-            --info-border: #b3cce0;
-            --radius: 10px;
-            --radius-sm: 6px;
-            --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --bg: #f5f4f0; --surface: #ffffff; --surface2: #f0efe9;
+            --border: #e2e0d8; --border-strong: #c8c6bc;
+            --text: #1a1916; --text-muted: #6b6960; --text-light: #9b9990;
+            --accent: #2d5a27; --accent-light: #e8f0e6; --accent-border: #b8d4b3;
+            --danger: #c0392b; --danger-light: #fdf0ef;
+            --info: #1a4a7a; --info-light: #e8f0f8; --info-border: #b3cce0;
+            --radius: 10px; --radius-sm: 6px;
+            --shadow: 0 1px 3px rgba(0,0,0,0.06);
         }
-
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            padding: 0;
-        }
-
-       
-        .header {
-            background: var(--surface);
-            border-bottom: 1px solid var(--border);
-            padding: 0 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 60px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .header-brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text);
-            text-decoration: none;
-        }
-        .header-brand .dot {
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            background: var(--accent);
-        }
-        .header-actions { display: flex; gap: 8px; }
-
-        
-        .container {
-            max-width: 760px;
-            margin: 0 auto;
-            padding: 2.5rem 1.5rem 4rem;
-        }
-
-        .page-title {
-            font-size: 28px;
-            font-weight: 600;
-            color: var(--text);
-            margin-bottom: 4px;
-            letter-spacing: -0.5px;
-        }
-        .page-subtitle {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-        }
-
-        
-        .card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            box-shadow: var(--shadow);
-        }
-        .card-dashed {
-            border-style: dashed;
-            border-color: var(--border-strong);
-            background: var(--surface2);
-            box-shadow: none;
-        }
-
-        
+        body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+        .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; position: sticky; top: 0; z-index: 100; }
+        .header-brand { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; color: var(--text); text-decoration: none; }
+        .header-brand .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+        .container { max-width: 760px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+        .page-title { font-size: 28px; font-weight: 600; letter-spacing: -0.5px; margin-bottom: 4px; }
+        .page-subtitle { font-size: 14px; color: var(--text-muted); margin-bottom: 2rem; }
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1rem; box-shadow: var(--shadow); }
+        .card-dashed { border-style: dashed; border-color: var(--border-strong); background: var(--surface2); box-shadow: none; }
         .field { margin-bottom: 1.1rem; }
         .field:last-child { margin-bottom: 0; }
-        .field label {
-            display: block;
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 6px;
-        }
-        input[type=text], input[type=number], input[type=url], textarea, select {
-            width: 100%;
-            padding: 9px 12px;
-            font-size: 14px;
-            font-family: 'DM Sans', sans-serif;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            color: var(--text);
-            transition: border-color 0.15s, box-shadow 0.15s;
-            outline: none;
-        }
-        input:focus, textarea:focus, select:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(45,90,39,0.1);
-        }
+        .field label { display: block; font-size: 12px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+        input[type=text], input[type=number], input[type=url], textarea, select { width: 100%; padding: 9px 12px; font-size: 14px; font-family: 'DM Sans', sans-serif; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); outline: none; transition: border-color .15s, box-shadow .15s; }
+        input:focus, textarea:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(45,90,39,0.1); }
         textarea { resize: vertical; min-height: 72px; line-height: 1.6; }
-
         .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
-        
-        .type-grid {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 1rem;
-        }
-        .type-pill {
-            padding: 6px 14px;
-            border-radius: 99px;
-            font-size: 13px;
-            font-weight: 500;
-            border: 1px solid var(--border-strong);
-            background: var(--surface);
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: all 0.15s;
-        }
+        .type-grid { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1rem; }
+        .type-pill { padding: 6px 14px; border-radius: 99px; font-size: 13px; font-weight: 500; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-muted); cursor: pointer; transition: all .15s; }
         .type-pill:hover { border-color: var(--accent); color: var(--accent); }
-        .type-pill.active {
-            background: var(--accent);
-            border-color: var(--accent);
-            color: #fff;
-        }
-
-        
-        .question-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1.25rem 1.5rem;
-            margin-bottom: 10px;
-            box-shadow: var(--shadow);
-            animation: slideIn 0.2s ease;
-        }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-8px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-        .q-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 1rem;
-        }
-        .q-num {
-            width: 28px; height: 28px;
-            border-radius: 50%;
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 12px; font-weight: 600;
-            color: var(--text-muted);
-            flex-shrink: 0;
-        }
-        .q-type-badge {
-            font-size: 11px;
-            font-weight: 500;
-            padding: 3px 10px;
-            border-radius: 99px;
-            background: var(--info-light);
-            color: var(--info);
-            border: 1px solid var(--info-border);
-        }
-        .q-remove {
-            margin-left: auto;
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--text-light);
-            font-size: 18px;
-            line-height: 1;
-            padding: 2px 6px;
-            border-radius: var(--radius-sm);
-            transition: all 0.15s;
-        }
+        .type-pill.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+        .question-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 10px; box-shadow: var(--shadow); animation: slideIn .2s ease; }
+        @keyframes slideIn { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+        .q-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
+        .q-num { width: 28px; height: 28px; border-radius: 50%; background: var(--surface2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--text-muted); flex-shrink: 0; }
+        .q-type-badge { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 99px; background: var(--info-light); color: var(--info); border: 1px solid var(--info-border); }
+        .q-remove { margin-left: auto; background: none; border: none; cursor: pointer; color: var(--text-light); font-size: 18px; padding: 2px 6px; border-radius: var(--radius-sm); transition: all .15s; }
         .q-remove:hover { background: var(--danger-light); color: var(--danger); }
-
-        
         .options-list { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
         .option-row { display: flex; align-items: center; gap: 8px; }
         .option-row input[type=text] { flex: 1; }
-        .correct-label {
-            display: flex; align-items: center; gap: 5px;
-            font-size: 12px; color: var(--text-muted);
-            cursor: pointer; white-space: nowrap; flex-shrink: 0;
-        }
+        .correct-label { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text-muted); cursor: pointer; white-space: nowrap; flex-shrink: 0; }
         .correct-label input { width: auto; cursor: pointer; accent-color: var(--accent); }
-        .opt-remove {
-            background: none; border: none; cursor: pointer;
-            color: var(--text-light); font-size: 15px; padding: 2px 5px;
-            border-radius: var(--radius-sm); flex-shrink: 0;
-            transition: all 0.15s;
-        }
+        .opt-remove { background: none; border: none; cursor: pointer; color: var(--text-light); font-size: 15px; padding: 2px 5px; border-radius: var(--radius-sm); flex-shrink: 0; transition: all .15s; }
         .opt-remove:hover { color: var(--danger); background: var(--danger-light); }
-        .add-option-btn {
-            margin-top: 8px;
-            width: 100%;
-            padding: 7px;
-            font-size: 13px;
-            font-family: 'DM Sans', sans-serif;
-            border: 1px dashed var(--border-strong);
-            border-radius: var(--radius-sm);
-            background: transparent;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: all 0.15s;
-        }
+        .add-option-btn { margin-top: 8px; width: 100%; padding: 7px; font-size: 13px; font-family: 'DM Sans', sans-serif; border: 1px dashed var(--border-strong); border-radius: var(--radius-sm); background: transparent; color: var(--text-muted); cursor: pointer; transition: all .15s; }
         .add-option-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
-
-        
-        .btn {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 9px 18px;
-            font-size: 14px; font-weight: 500;
-            font-family: 'DM Sans', sans-serif;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border-strong);
-            background: var(--surface);
-            color: var(--text);
-            cursor: pointer;
-            transition: all 0.15s;
-            text-decoration: none;
-        }
-        .btn:hover { background: var(--surface2); border-color: var(--border-strong); }
-        .btn:active { transform: scale(0.98); }
-        .btn-primary {
-            background: var(--accent);
-            border-color: var(--accent);
-            color: #fff;
-        }
+        .btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif; border-radius: var(--radius-sm); border: 1px solid var(--border-strong); background: var(--surface); color: var(--text); cursor: pointer; transition: all .15s; text-decoration: none; }
+        .btn:hover { background: var(--surface2); }
+        .btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
         .btn-primary:hover { background: #234d1e; border-color: #234d1e; }
-        .btn-add-question {
-            width: 100%;
-            justify-content: center;
-            border-style: dashed;
-            color: var(--text-muted);
-            font-size: 14px;
-        }
+        .btn-add-question { width: 100%; justify-content: center; border-style: dashed; color: var(--text-muted); }
         .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 1.5rem; }
-
-        
-        .section-label {
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.07em;
-            color: var(--text-light);
-            margin-bottom: 10px;
-        }
+        .section-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-light); margin-bottom: 10px; }
         .divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
-
-        
-        .alert {
-            padding: 12px 16px;
-            border-radius: var(--radius-sm);
-            font-size: 14px;
-            margin-top: 1rem;
-            display: none;
-        }
-        .alert-success {
-            background: var(--accent-light);
-            border: 1px solid var(--accent-border);
-            color: var(--accent);
-        }
-        .alert-error {
-            background: var(--danger-light);
-            border: 1px solid #f5c6c2;
-            color: var(--danger);
-        }
+        .alert { padding: 12px 16px; border-radius: var(--radius-sm); font-size: 14px; margin-top: 1rem; display: none; }
+        .alert-success { background: var(--accent-light); border: 1px solid var(--accent-border); color: var(--accent); }
+        .alert-error { background: var(--danger-light); border: 1px solid #f5c6c2; color: var(--danger); }
         .alert-title { font-weight: 600; margin-bottom: 4px; }
-        .alert pre {
-            font-family: 'DM Mono', monospace;
-            font-size: 12px;
-            margin-top: 8px;
-            background: rgba(0,0,0,0.04);
-            padding: 10px;
-            border-radius: var(--radius-sm);
-            overflow-x: auto;
-            white-space: pre-wrap;
-            word-break: break-all;
-            max-height: 200px;
-            overflow-y: auto;
-            color: var(--text);
-        }
-
-        
-        .empty-state {
-            text-align: center;
-            padding: 2rem 1rem;
-            color: var(--text-light);
-            font-size: 14px;
-        }
-
-        
-        .spinner {
-            width: 14px; height: 14px;
-            border: 2px solid rgba(255,255,255,0.4);
-            border-top-color: #fff;
-            border-radius: 50%;
-            animation: spin 0.6s linear infinite;
-            display: none;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        
+        .alert pre { font-family: 'DM Mono', monospace; font-size: 12px; margin-top: 8px; background: rgba(0,0,0,0.04); padding: 10px; border-radius: var(--radius-sm); overflow-x: auto; white-space: pre-wrap; word-break: break-all; max-height: 200px; overflow-y: auto; color: var(--text); }
+        .empty-state { text-align: center; padding: 2rem 1rem; color: var(--text-light); font-size: 14px; }
         .hint { font-size: 11px; color: var(--text-light); margin-top: 4px; }
+        .spinner { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin .6s linear infinite; display: none; }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
 <header class="header">
     <a href="{{ url('/') }}" class="header-brand">
-        <span class="dot"></span>
-        Quiz System
+        <span class="dot"></span>Quiz System
     </a>
-    <div class="header-actions">
+    <div>
         <a href="{{ url('/') }}" class="btn">← All quizzes</a>
     </div>
 </header>
 
 <div class="container">
     <h1 class="page-title">Create a quiz</h1>
-    <p class="page-subtitle">Fill in the details below, add your questions, then submit.</p>
+    <p class="page-subtitle">Fill in the details, add your questions, then submit.</p>
 
-    {{-- Quiz meta --}}
     <div class="card">
         <div class="field">
             <label>Quiz title *</label>
@@ -370,32 +95,29 @@
         </div>
         <div class="field">
             <label>Description (optional)</label>
-            <textarea id="quizDesc" placeholder="Brief description of this quiz…"></textarea>
+            <textarea id="quizDesc" placeholder="Brief description…"></textarea>
         </div>
     </div>
 
-    {{-- Questions list --}}
     <div class="section-label" style="margin-top:1.5rem">Questions</div>
     <div id="questionsList">
         <div class="empty-state">No questions yet — add one below.</div>
     </div>
 
-    {{-- Add question --}}
     <div class="card card-dashed" style="margin-top:10px">
         <div class="section-label">Choose type then add</div>
+        {{-- Pills are generated from the PHP registry — no hardcoding in PHP or JS --}}
         <div class="type-grid" id="typeGrid">
-            <button class="type-pill active" data-type="single_choice">Single choice</button>
-            <button class="type-pill" data-type="multiple_choice">Multiple choice</button>
-            <button class="type-pill" data-type="binary">Yes / No</button>
-            <button class="type-pill" data-type="number">Number</button>
-            <button class="type-pill" data-type="text">Text</button>
+            @foreach($types as $i => $type)
+                <button class="type-pill {{ $i === 0 ? 'active' : '' }}"
+                        data-type="{{ $type['key'] }}">{{ $type['label'] }}</button>
+            @endforeach
         </div>
         <button class="btn btn-add-question" id="addQBtn">+ Add question</button>
     </div>
 
     <hr class="divider">
 
-    {{-- Submit --}}
     <div class="btn-row">
         <button class="btn btn-primary" id="submitBtn">
             <span class="spinner" id="spinner"></span>
@@ -419,17 +141,13 @@
 </div>
 
 <script>
-let questions = [];
-let selectedType = 'single_choice';
-let qCounter = 0;
+// ── Type metadata comes from PHP — JS has ZERO hardcoded type strings ─────────
+const TYPES = @json($types);   // [{key, label, hasOptions, inputType}, …]
+const typeMap = Object.fromEntries(TYPES.map(t => [t.key, t]));
 
-const typeLabels = {
-    single_choice:   'Single choice',
-    multiple_choice: 'Multiple choice',
-    binary:          'Yes / No',
-    number:          'Number',
-    text:            'Text',
-};
+let questions   = [];
+let selectedType = TYPES[0]?.key ?? '';
+let qCounter    = 0;
 
 // ── Type pill toggle ──────────────────────────────────────────────────────────
 document.getElementById('typeGrid').addEventListener('click', e => {
@@ -443,23 +161,18 @@ document.getElementById('typeGrid').addEventListener('click', e => {
 // ── Add question ──────────────────────────────────────────────────────────────
 document.getElementById('addQBtn').addEventListener('click', () => {
     qCounter++;
+    const meta = typeMap[selectedType];
     const q = {
-        id: qCounter,
-        type: selectedType,
-        question_text: '',
-        marks: 1,
-        video_url: '',
-        options: [],
-        correct_answer: '',
+        id: qCounter, type: selectedType,
+        question_text: '', marks: 1, video_url: '',
+        options: [], correct_answer: '',
     };
 
-    if (q.type === 'binary') {
-        q.options = [{ text: 'Yes', is_correct: true }, { text: 'No', is_correct: false }];
-    } else if (q.type === 'single_choice' || q.type === 'multiple_choice') {
-        q.options = [
-            { text: '', is_correct: false },
-            { text: '', is_correct: false },
-        ];
+    if (meta.hasOptions) {
+        // Binary seeds Yes/No; others start with two blank options
+        q.options = selectedType === 'binary'
+            ? [{ text: 'Yes', is_correct: true }, { text: 'No', is_correct: false }]
+            : [{ text: '', is_correct: false }, { text: '', is_correct: false }];
     }
 
     questions.push(q);
@@ -478,19 +191,20 @@ function renderAll() {
         return;
     }
 
-    list.innerHTML = questions.map((q, idx) => `
+    list.innerHTML = questions.map((q, idx) => {
+        const meta = typeMap[q.type];
+        return `
         <div class="question-card" data-idx="${idx}">
             <div class="q-header">
                 <div class="q-num">${idx + 1}</div>
-                <span class="q-type-badge">${typeLabels[q.type]}</span>
-                <button class="q-remove" data-action="remove-q" data-idx="${idx}" title="Remove question">×</button>
+                <span class="q-type-badge">${meta.label}</span>
+                <button class="q-remove" data-action="remove-q" data-idx="${idx}">×</button>
             </div>
-
             <div class="field">
                 <label>Question text *</label>
-                <textarea data-action="q-text" data-idx="${idx}" placeholder="Type your question here…" rows="2">${escHtml(q.question_text)}</textarea>
+                <textarea data-action="q-text" data-idx="${idx}" rows="2"
+                    placeholder="Type your question…">${esc(q.question_text)}</textarea>
             </div>
-
             <div class="row-2 field">
                 <div>
                     <label>Marks</label>
@@ -498,20 +212,67 @@ function renderAll() {
                 </div>
                 <div>
                     <label>YouTube URL (optional)</label>
-                    <input type="url" data-action="q-video" data-idx="${idx}" value="${escHtml(q.video_url || '')}" placeholder="https://youtube.com/watch?v=…">
+                    <input type="url" data-action="q-video" data-idx="${idx}"
+                        value="${esc(q.video_url)}" placeholder="https://youtube.com/watch?v=…">
                 </div>
             </div>
+            ${renderAnswerSection(q, idx, meta)}
+        </div>`;
+    }).join('');
 
-            ${renderAnswers(q, idx)}
-        </div>
-    `).join('');
+    bindEvents(list);
+}
 
-    // bind events
+/**
+ * Renders the answer section for a question.
+ * Uses meta.hasOptions and meta.inputType — no hardcoded type strings.
+ */
+function renderAnswerSection(q, idx, meta) {
+    if (meta.hasOptions) {
+        const isMulti   = meta.inputType === 'checkbox';
+        const isBinary  = q.type === 'binary';
+        const hint      = isMulti ? 'Tick all correct options' : 'Tick the correct option';
+
+        return `
+            <div class="field">
+                <label>${hint}</label>
+                <div class="options-list">
+                    ${q.options.map((opt, oi) => `
+                        <div class="option-row">
+                            <input type="text" data-action="opt-text" data-qi="${idx}" data-oi="${oi}"
+                                value="${esc(opt.text)}" placeholder="Option ${oi + 1}"
+                                ${isBinary ? 'readonly' : ''}>
+                            <label class="correct-label">
+                                <input type="${meta.inputType}" data-action="opt-correct"
+                                    name="correct_${idx}" data-qi="${idx}" data-oi="${oi}"
+                                    ${opt.is_correct ? 'checked' : ''}>
+                                Correct
+                            </label>
+                            ${(!isBinary && q.options.length > 2)
+                                ? `<button class="opt-remove" data-action="remove-opt" data-qi="${idx}" data-oi="${oi}">×</button>`
+                                : ''}
+                        </div>
+                    `).join('')}
+                </div>
+                ${!isBinary ? `<button class="add-option-btn" data-action="add-opt" data-qi="${idx}">+ Add option</button>` : ''}
+            </div>`;
+    }
+
+    // Free-input types (number, text, or any future free-input type)
+    return `
+        <div class="field">
+            <label>Correct answer</label>
+            <input type="${meta.inputType}" data-action="correct-answer" data-qi="${idx}"
+                value="${esc(q.correct_answer)}"
+                placeholder="${meta.inputType === 'number' ? 'e.g. 42' : 'e.g. Paris'}"
+                style="max-width:300px">
+            <p class="hint">Answer is compared case-insensitively</p>
+        </div>`;
+}
+
+function bindEvents(list) {
     list.querySelectorAll('[data-action="remove-q"]').forEach(b =>
-        b.addEventListener('click', e => {
-            questions.splice(+e.currentTarget.dataset.idx, 1);
-            renderAll();
-        })
+        b.addEventListener('click', e => { questions.splice(+e.currentTarget.dataset.idx, 1); renderAll(); })
     );
     list.querySelectorAll('[data-action="q-text"]').forEach(el =>
         el.addEventListener('input', e => { questions[+e.target.dataset.idx].question_text = e.target.value; })
@@ -530,7 +291,8 @@ function renderAll() {
     list.querySelectorAll('[data-action="opt-correct"]').forEach(el =>
         el.addEventListener('change', e => {
             const qi = +e.target.dataset.qi, oi = +e.target.dataset.oi;
-            if (questions[qi].type === 'multiple_choice') {
+            const meta = typeMap[questions[qi].type];
+            if (meta.inputType === 'checkbox') {
                 questions[qi].options[oi].is_correct = e.target.checked;
             } else {
                 questions[qi].options.forEach((o, i) => o.is_correct = (i === oi));
@@ -554,72 +316,30 @@ function renderAll() {
     );
 }
 
-function renderAnswers(q, idx) {
-    if (q.type === 'binary' || q.type === 'single_choice' || q.type === 'multiple_choice') {
-        const inputType = q.type === 'multiple_choice' ? 'checkbox' : 'radio';
-        const correctLabel = q.type === 'multiple_choice' ? 'Correct answers (tick all that apply)' : 'Options — tick the correct one';
-        return `
-            <div class="field">
-                <label>${correctLabel}</label>
-                <div class="options-list">
-                    ${q.options.map((opt, oi) => `
-                        <div class="option-row">
-                            <input type="text" data-action="opt-text" data-qi="${idx}" data-oi="${oi}"
-                                value="${escHtml(opt.text)}" placeholder="Option ${oi + 1}">
-                            <label class="correct-label">
-                                <input type="${inputType}" data-action="opt-correct"
-                                    name="correct_${idx}" data-qi="${idx}" data-oi="${oi}"
-                                    ${opt.is_correct ? 'checked' : ''}>
-                                Correct
-                            </label>
-                            ${q.options.length > 2
-                                ? `<button class="opt-remove" data-action="remove-opt" data-qi="${idx}" data-oi="${oi}" title="Remove">×</button>`
-                                : ''}
-                        </div>
-                    `).join('')}
-                </div>
-                ${q.type !== 'binary' ? `<button class="add-option-btn" data-action="add-opt" data-qi="${idx}">+ Add option</button>` : ''}
-            </div>`;
-    }
-
-    const placeholder = q.type === 'number' ? 'e.g. 42' : 'e.g. Paris';
-    const inputType   = q.type === 'number' ? 'number' : 'text';
-    return `
-        <div class="field">
-            <label>Correct answer</label>
-            <input type="${inputType}" data-action="correct-answer" data-qi="${idx}"
-                value="${escHtml(q.correct_answer)}" placeholder="${placeholder}" style="max-width:300px">
-            <p class="hint">The user's answer will be compared to this (case-insensitive)</p>
-        </div>`;
-}
-
-function escHtml(str) {
-    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-// ── Build payload ─────────────────────────────────────────────────────────────
+// ── Build API payload ─────────────────────────────────────────────────────────
 function buildPayload() {
     return {
-        title: document.getElementById('quizTitle').value.trim(),
+        title:       document.getElementById('quizTitle').value.trim(),
         description: document.getElementById('quizDesc').value.trim(),
         questions: questions.map(q => {
-            const out = { type: q.type, question_text: q.question_text, marks: q.marks };
+            const meta = typeMap[q.type];
+            const out  = { type: q.type, question_text: q.question_text, marks: q.marks };
             if (q.video_url) out.video_url = q.video_url;
-            if (['single_choice', 'multiple_choice', 'binary'].includes(q.type)) {
+            if (meta.hasOptions) {
                 out.options = q.options.map(o => ({ text: o.text, is_correct: o.is_correct }));
             } else {
                 out.correct_answer = q.correct_answer;
             }
             return out;
-        })
+        }),
     };
 }
 
-// ── Preview JSON ──────────────────────────────────────────────────────────────
+// ── Preview ───────────────────────────────────────────────────────────────────
 document.getElementById('previewBtn').addEventListener('click', () => {
     const box = document.getElementById('successBox');
     document.getElementById('successTitle').textContent = 'JSON Preview (not submitted)';
-    document.getElementById('successPre').textContent = JSON.stringify(buildPayload(), null, 2);
+    document.getElementById('successPre').textContent   = JSON.stringify(buildPayload(), null, 2);
     document.getElementById('viewQuizLink').style.display = 'none';
     box.style.display = 'block';
     document.getElementById('errorBox').style.display = 'none';
@@ -629,30 +349,18 @@ document.getElementById('previewBtn').addEventListener('click', () => {
 // ── Submit ────────────────────────────────────────────────────────────────────
 document.getElementById('submitBtn').addEventListener('click', async () => {
     const payload = buildPayload();
-    const errBox  = document.getElementById('errorBox');
-    const okBox   = document.getElementById('successBox');
-    errBox.style.display = 'none';
-    okBox.style.display  = 'none';
+    document.getElementById('errorBox').style.display   = 'none';
+    document.getElementById('successBox').style.display = 'none';
 
-    if (!payload.title) {
-        showError('Please enter a quiz title.');
-        return;
-    }
-    if (!payload.questions.length) {
-        showError('Please add at least one question.');
-        return;
-    }
+    if (!payload.title) return showError('Please enter a quiz title.');
+    if (!payload.questions.length) return showError('Please add at least one question.');
     for (let i = 0; i < payload.questions.length; i++) {
-        if (!payload.questions[i].question_text.trim()) {
-            showError(`Question ${i + 1} has no text.`);
-            return;
-        }
+        if (!payload.questions[i].question_text.trim()) return showError(`Question ${i + 1} has no text.`);
     }
 
     setLoading(true);
-
     try {
-        const res = await fetch('/api/quiz', {
+        const res  = await fetch('/api/quiz', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -661,25 +369,20 @@ document.getElementById('submitBtn').addEventListener('click', async () => {
             },
             body: JSON.stringify(payload),
         });
-
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || JSON.stringify(data.errors || data));
 
         document.getElementById('successTitle').textContent = `Quiz created! ID: ${data.id}`;
-        document.getElementById('successPre').textContent = JSON.stringify(data, null, 2);
+        document.getElementById('successPre').textContent   = JSON.stringify(data, null, 2);
         const link = document.getElementById('viewQuizLink');
-        link.href = `/quiz/${data.id}`;
+        link.href  = `/quiz/${data.id}`;
         link.style.display = 'inline-flex';
-        okBox.style.display = 'block';
-        okBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        document.getElementById('successBox').style.display = 'block';
+        document.getElementById('successBox').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-        // reset
-        questions = [];
-        qCounter  = 0;
-        renderAll();
+        questions = []; qCounter = 0; renderAll();
         document.getElementById('quizTitle').value = '';
         document.getElementById('quizDesc').value  = '';
-
     } catch (err) {
         showError(err.message);
     } finally {
@@ -704,9 +407,12 @@ function showError(msg) {
     document.getElementById('errorBox').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 function setLoading(on) {
-    document.getElementById('spinner').style.display  = on ? 'block' : 'none';
+    document.getElementById('spinner').style.display   = on ? 'block' : 'none';
     document.getElementById('submitLabel').textContent = on ? 'Submitting…' : 'Submit quiz';
     document.getElementById('submitBtn').disabled = on;
+}
+function esc(str) {
+    return String(str ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 renderAll();
