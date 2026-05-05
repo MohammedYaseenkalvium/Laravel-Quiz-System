@@ -35,6 +35,26 @@ class QuizEvaluatorService
                     $score += $q->marks;
                 }
             }
+
+            elseif ($q->type === 'binary') {
+                $correctOption = $q->options->where('is_correct', true)->first();
+
+                if ($correctOption && strtolower($correctOption->option_text) === strtolower($ans->answer_text)) {
+                    $score += $q->marks;
+                }
+            }
+
+            elseif ($q->type === 'number') {
+                $correctOption = $q->options->where('is_correct', true)->first();
+
+                if ($correctOption && $correctOption->option_text == $ans->answer_text) {
+                    $score += $q->marks;
+                }
+            }
+
+
+
+            
         }
         $attempt->update(['score' => $score]);
 

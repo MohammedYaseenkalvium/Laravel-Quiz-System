@@ -72,24 +72,35 @@ class QuizController extends Controller
             'description'=> $request->description
         ]);
 
-        foreach($request->questions as $q){
-            $question = Question::create([
-                'quiz_id'=>$quiz->id,
-                'type'=>$q['type'],
-                'question_text'=>$q['question_text'],
-                'marks'=>$q['marks'] ?? 1
-                ]);
+        foreach ($request->questions as $q) {
 
-            if (isset($q['options'])){
-                foreach($q['options'] as $opt){
-                    Option::create([
-                        'question_id'=>$question->id,
-                        'option_text'=>$opt['text'],
-                        'is_correct'=>$opt['is_correct'] ?? false
-                    ]);
-                }
-            }
+    $question = Question::create([
+        'quiz_id' => $quiz->id,
+        'type' => $q['type'],
+        'question_text' => $q['question_text'],
+        'marks' => $q['marks'] ?? 1
+    ]);
+
+    
+    if (in_array($q['type'], ['single_choice', 'multiple_choice', 'binary']) && isset($q['options'])) {
+        foreach ($q['options'] as $opt) {
+            Option::create([
+                'question_id' => $question->id,
+                'option_text' => $opt['text'],
+                'is_correct' => $opt['is_correct'] ?? false
+            ]);
         }
+    }
+
+    
+    if (in_array($q['type'], ['number', 'text']) && isset($q['correct_answer'])) {
+        Option::create([
+            'question_id' => $question->id,
+            'option_text' => $q['correct_answer'],
+            'is_correct' => true
+        ]);
+    }
+}
         return $quiz->load('questions.options');
     } 
 
