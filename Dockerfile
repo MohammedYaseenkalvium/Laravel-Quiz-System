@@ -23,6 +23,10 @@ RUN composer install --no-dev --optimize-autoloader
 
 RUN npm install && npm run build
 
+RUN touch database/database.sqlite
+
 EXPOSE 10000
+
+
 
 CMD php artisan serve --host=0.0.0.0 --port=${PORT:-8000}
