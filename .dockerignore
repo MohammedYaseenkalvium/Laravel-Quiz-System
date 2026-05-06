@@ -1,0 +1,16 @@
+node_modules
+npm-debug.log
+.git
+.gitignore
+README.md
+.env
+.env.example
+.DS_Store
+storage/logs
+bootstrap/cache
+vendor
+.idea
+.vscode
+dist
+.nuxt
+.cache
